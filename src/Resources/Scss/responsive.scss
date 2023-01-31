@@ -1,0 +1,38 @@
+$screens: (
+        xs : 0,
+        sm : 576px,
+        md : 768px,
+        lg : 992px,
+        xl : 1200px,
+        xxl : 1400px
+);
+
+@mixin mediaDown($screen){
+  @if ( map-has-key($screens, $screen) ){
+    @media only screen and (max-width:map-get($screens, $screen)) {
+      @content
+    }
+  }@else{
+    @error "Screen doesn't exsisit!!";
+  }
+}
+
+@mixin mediaUp($screen){
+  @if ( map-has-key($screens, $screen) ){
+    @media only screen and (min-width:map-get($screens, $screen)) {
+      @content
+    }
+  }@else{
+    @error "Screen doesn't exsisit!!";
+  }
+}
+
+@mixin mediaBetween($screen , $secondScreen){
+  @if ( map-has-key($screens, $screen) and map-has-key($screens , $secondScreen)){
+    @media screen and (max-width: map-get($screens, $screen)) and (min-width: map-get($screens, $secondScreen)){
+      @content
+    }
+  }@else{
+    @error "The First or Second Screen doesn't exsisit!!";
+  }
+}
