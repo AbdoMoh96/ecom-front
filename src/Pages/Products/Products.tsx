@@ -41,9 +41,17 @@ const Products : React.FC<PropTypes> = ({}) => {
         }
     }
 
-    const handleApplyButton = () => {
-       if (action === 'delete'){
-           // axios post call to delete all products in productIds
+    const handleApplyButton = async ()  => {
+       if (action === 'delete' && productIds.length > 0){
+           let response = await axios.delete(`${import.meta.env.VITE_API_URL}/products/delete`,{
+               method : 'delete',
+               data : {
+                   "product_ids" : productIds
+               }
+           });
+           if (response.status === 200){
+               handleSetProducts().catch();
+           }
        }
     }
 
