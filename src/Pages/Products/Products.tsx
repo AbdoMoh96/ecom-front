@@ -6,8 +6,9 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Button from '@mui/material/Button';
-import Checkbox, {CheckboxProps} from '@mui/material/Checkbox';
 import ProductInterface from "../../App/Interfaces/ProductInterface";
+import ProductBox from "./Components/ProductBox";
+import Layout from "../../Layout";
 
 interface PropTypes {
 
@@ -51,41 +52,39 @@ const Products : React.FC<PropTypes> = ({}) => {
        handleSetProducts().catch();
     }, []);
 
+    const headerJsx = () : JSX.Element => {
+        return <>
+            <div className='mass-delete'>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Action</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={action}
+                        label="Age"
+                        onChange={handleActionChange}
+                    >
+                        <MenuItem value={'add'}>Add New Product</MenuItem>
+                        <MenuItem value={'delete'}>Mass Delete Action</MenuItem>
+                    </Select>
+                </FormControl>
+                <Button variant="outlined" onClick={handleApplyButton}>Apply</Button>
+            </div>
+        </>
+    }
+
     return(
-        <main>
-            <header>
-                <span className='title'>product list</span>
-
-                <div className='mass-delete'>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Action</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={action}
-                            label="Age"
-                            onChange={handleActionChange}
-                        >
-                            <MenuItem value={'add'}>Add New Product</MenuItem>
-                            <MenuItem value={'delete'}>Mass Delete Action</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <Button variant="outlined" onClick={handleApplyButton}>Apply</Button>
-                </div>
-            </header>
-
+        <Layout pageTitle='Product List' headerJsx={headerJsx}>
             <section className='products_section'>
                 {products.map(product => {
-                    return <div className='product_box' key={product.product_id}>
-                        <span>{product.sku}</span>
-                        <span>{product.name}</span>
-                        <span>{product.price} $</span>
-                        <span>size 700M</span>
-                        <Checkbox onChange={(e: ChangeEvent<HTMLInputElement>) => handleSetProductIds(e,product.product_id)} />
-                    </div>
+                    return <ProductBox
+                              key={product.product_id}
+                              product={product}
+                              handleSetProductIds={handleSetProductIds}
+                           />
                 })}
             </section>
-        </main>
+        </Layout>
     )
 }
 

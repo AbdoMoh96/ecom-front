@@ -1,0 +1,16 @@
+@use '../../../../../Resources/Scss/responsive.scss' as m;
+
+.mass-delete{
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 20rem;
+  #demo-simple-select-label{
+    background-color: white;
+    padding-right: 3px;
+  }
+  @include m.mediaDown(md){
+    flex-direction: column;
+
+  }
+}
