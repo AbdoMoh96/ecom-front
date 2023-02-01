@@ -1,0 +1,10 @@
+@use '../../../../../Resources/Scss/responsive.scss' as m;
+
+.actions_new{
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  @include m.mediaDown(md){
+    flex-direction: column;
+  }
+}

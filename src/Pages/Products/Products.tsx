@@ -1,4 +1,5 @@
 import React, {useEffect, useState, ChangeEvent} from 'react';
+import {useNavigate} from "react-router-dom";
 import './Resources/Scss/index.scss';
 import axios from "axios";
 import InputLabel from '@mui/material/InputLabel';
@@ -19,6 +20,7 @@ const Products : React.FC<PropTypes> = ({}) => {
     const [action, setAction] = useState<string>('');
     const [productIds, setProductIds] = useState<Array<number>>([]);
     const [products, setProducts] = useState<Array<ProductInterface>>([]);
+    const navigate = useNavigate();
 
     const handleSetProducts = async () => {
       let response = await axios.get(`${import.meta.env.VITE_API_URL}/products/list`);
@@ -62,8 +64,8 @@ const Products : React.FC<PropTypes> = ({}) => {
 
     const headerJsx = () : JSX.Element => {
         return <>
-            <div className='mass-delete'>
-                <FormControl fullWidth>
+            <div className='actions'>
+                <FormControl fullWidth size="small">
                     <InputLabel id="demo-simple-select-label">Action</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
@@ -72,11 +74,11 @@ const Products : React.FC<PropTypes> = ({}) => {
                         label="Age"
                         onChange={handleActionChange}
                     >
-                        <MenuItem value={'add'}>Add New Product</MenuItem>
                         <MenuItem value={'delete'}>Mass Delete Action</MenuItem>
                     </Select>
                 </FormControl>
                 <Button variant="outlined" onClick={handleApplyButton}>Apply</Button>
+                <Button variant="contained" color="success" onClick={() => navigate('/products/new')}>ADD</Button>
             </div>
         </>
     }
