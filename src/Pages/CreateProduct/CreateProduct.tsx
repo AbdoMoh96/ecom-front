@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from "../../Layout";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
@@ -10,6 +10,8 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import TypeInterface from "../../App/Interfaces/TypeInterface";
+import axios from "axios";
 
 
 interface propTypes {
@@ -20,7 +22,7 @@ interface propTypes {
 const CreateProduct: React.FC<propTypes> = ({}) => {
 
     const navigate = useNavigate();
-    const productForm = useRef();
+    const [types, setTypes] = useState<Array<TypeInterface>>([]);
 
 
     const {control, handleSubmit, watch, formState: {errors}} = useForm<ProductInterface>();
@@ -35,10 +37,19 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
         </>
     }
 
-    const type = useWatch<ProductInterface>({
+    const currentType = useWatch<ProductInterface>({
         control: control,
         name: 'type_id'
     });
+
+    const handleSetTypes = async () => {
+        let response = await axios.get(`${import.meta.env.VITE_API_URL}/products/types/list`);
+        setTypes(response.data);
+    }
+
+    useEffect(() => {
+        handleSetTypes().catch();
+    }, [])
 
     return (
         <Layout pageTitle='Product Add' headerJsx={headerJsx}>
@@ -100,28 +111,28 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                 label="Type Switcher"
                                 onChange={field.onChange}
                             >
-                                <MenuItem value={1}>dvd</MenuItem>
-                                <MenuItem value={2}>book</MenuItem>
-                                <MenuItem value={3}>furniture</MenuItem>
+                                {types.map(type => {
+                                    return <MenuItem key={type.id} value={type.id}>{type.name}</MenuItem>
+                                })}
                             </Select>
                         </FormControl>}
                     />
                 </div>
 
 
-                {type === 1 &&
+                {currentType === 1 &&
                     <>
                         <h1>type is dvd</h1>
                     </>
                 }
 
-                {type === 2 &&
+                {currentType === 2 &&
                     <>
                         <h1>type is book</h1>
                     </>
                 }
 
-                {type === 3 &&
+                {currentType === 3 &&
                     <>
                         <h1>type is furniture</h1>
                     </>
