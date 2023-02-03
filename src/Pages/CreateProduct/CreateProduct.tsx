@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Layout from "../../Layout";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
-import ProductInterface from "../../App/Interfaces/ProductInterface";
+import ProductFormInterface from "../../App/Interfaces/ProductFormInterface";
 import {useForm, SubmitHandler, Controller, useWatch} from "react-hook-form";
 import {TextField} from "@mui/material";
 import "./Resources/Scss/index.scss";
@@ -25,8 +25,8 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
     const [types, setTypes] = useState<Array<TypeInterface>>([]);
 
 
-    const {control, handleSubmit, watch, formState: {errors}} = useForm<ProductInterface>();
-    const onSubmit: SubmitHandler<ProductInterface> = async data => {
+    const {control, handleSubmit, watch, formState: {errors}} = useForm<ProductFormInterface>();
+    const onSubmit: SubmitHandler<ProductFormInterface> = async data => {
         let response = await axios.post(`${import.meta.env.VITE_API_URL}/products/new`, data);
         if (response.status === 200) {
             navigate('/products/list');
@@ -42,7 +42,7 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
         </>
     }
 
-    const currentType = useWatch<ProductInterface>({
+    const currentType = useWatch<ProductFormInterface>({
         control: control,
         name: 'type_id'
     });
@@ -140,6 +140,8 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                     variant="outlined"/>}
                             />
                         </div>
+
+                        <p className='description'>Enter DVD size in mega bites (MP) in this field.</p>
                     </div>
                 }
 
@@ -158,6 +160,7 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                     variant="outlined"/>}
                             />
                         </div>
+                        <p className='description'>Enter Book weight in kilograms (kg) in this field.</p>
                     </div>
                 }
 
@@ -204,6 +207,9 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                     variant="outlined"/>}
                             />
                         </div>
+
+                        <p className='description'>Enter Furniture dimensions (height, width, length) in centimeters
+                            (cm).</p>
                     </div>
                 }
 
