@@ -26,7 +26,12 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
 
 
     const {control, handleSubmit, watch, formState: {errors}} = useForm<ProductInterface>();
-    const onSubmit: SubmitHandler<ProductInterface> = data => console.log(data);
+    const onSubmit: SubmitHandler<ProductInterface> = async data => {
+        let response = await axios.post(`${import.meta.env.VITE_API_URL}/products/new`, data);
+        if (response.status === 200) {
+            navigate('/products/list');
+        }
+    };
 
     const headerJsx = (): JSX.Element => {
         return <>
@@ -121,21 +126,85 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
 
 
                 {currentType === 1 &&
-                    <>
-                        <h1>type is dvd</h1>
-                    </>
+                    <div className='product_type_wrapper'>
+                        <div className='from_group'>
+                            <Controller
+                                name="size"
+                                control={control}
+                                render={({field}) => <TextField
+                                    fullWidth
+                                    size={"small"}
+                                    value={field.value || ''}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                    label="Size"
+                                    variant="outlined"/>}
+                            />
+                        </div>
+                    </div>
                 }
 
                 {currentType === 2 &&
-                    <>
-                        <h1>type is book</h1>
-                    </>
+                    <div className='product_type_wrapper'>
+                        <div className='from_group'>
+                            <Controller
+                                name="weight"
+                                control={control}
+                                render={({field}) => <TextField
+                                    fullWidth
+                                    size={"small"}
+                                    value={field.value || ''}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                    label="Weight"
+                                    variant="outlined"/>}
+                            />
+                        </div>
+                    </div>
                 }
 
                 {currentType === 3 &&
-                    <>
-                        <h1>type is furniture</h1>
-                    </>
+                    <div className='product_type_wrapper'>
+                        <div className='from_group'>
+                            <Controller
+                                name="height"
+                                control={control}
+                                render={({field}) => <TextField
+                                    fullWidth
+                                    size={"small"}
+                                    value={field.value || ''}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                    label="Height"
+                                    variant="outlined"/>}
+                            />
+                        </div>
+
+                        <div className='from_group'>
+                            <Controller
+                                name="width"
+                                control={control}
+                                render={({field}) => <TextField
+                                    fullWidth
+                                    size={"small"}
+                                    value={field.value || ''}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                    label="Width"
+                                    variant="outlined"/>}
+                            />
+                        </div>
+
+                        <div className='from_group'>
+                            <Controller
+                                name="length"
+                                control={control}
+                                render={({field}) => <TextField
+                                    fullWidth
+                                    size={"small"}
+                                    value={field.value || ''}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                    label="Length"
+                                    variant="outlined"/>}
+                            />
+                        </div>
+                    </div>
                 }
 
             </form>
