@@ -4,6 +4,8 @@ import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
 import ProductFormInterface from "../../App/Interfaces/ProductFormInterface";
 import {useForm, SubmitHandler, Controller, useWatch} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import productFormSchema from "./Validation/productFormSchema";
 import {TextField} from "@mui/material";
 import "./Resources/Scss/index.scss";
 import InputLabel from "@mui/material/InputLabel";
@@ -25,7 +27,12 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
     const [types, setTypes] = useState<Array<TypeInterface>>([]);
 
 
-    const {control, handleSubmit, watch, formState: {errors}} = useForm<ProductFormInterface>();
+    const {control, handleSubmit, formState: {errors}} = useForm<ProductFormInterface>({
+        resolver: yupResolver(productFormSchema),
+        reValidateMode: 'onChange',
+        mode: 'all'
+    });
+
     const onSubmit: SubmitHandler<ProductFormInterface> = async data => {
         let response = await axios.post(`${import.meta.env.VITE_API_URL}/products/new`, data);
         if (response.status === 200) {
@@ -72,6 +79,7 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                             type="text"
                             variant="outlined"/>}
                     />
+                    <p className='error'>{errors.sku?.message}</p>
                 </div>
 
                 <div className='from_group'>
@@ -87,6 +95,7 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                             type="text"
                             variant="outlined"/>}
                     />
+                    <p className='error'>{errors.name?.message}</p>
                 </div>
 
                 <div className='from_group'>
@@ -101,6 +110,7 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                             label="Price"
                             variant="outlined"/>}
                     />
+                    <p className='error'>{errors.price?.message}</p>
                 </div>
 
                 <div className='from_group'>
@@ -122,6 +132,7 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                             </Select>
                         </FormControl>}
                     />
+                    <p className='error'>{errors.type_id?.message}</p>
                 </div>
 
 
@@ -139,6 +150,7 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                     label="Size"
                                     variant="outlined"/>}
                             />
+                            <p className='error'>{errors.size?.message}</p>
                         </div>
 
                         <p className='description'>Enter DVD size in mega bites (MP) in this field.</p>
@@ -157,8 +169,10 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                     value={field.value || ''}
                                     onChange={(e) => field.onChange(Number(e.target.value))}
                                     label="Weight"
+                                    type="number"
                                     variant="outlined"/>}
                             />
+                            <p className='error'>{errors.weight?.message}</p>
                         </div>
                         <p className='description'>Enter Book weight in kilograms (kg) in this field.</p>
                     </div>
@@ -176,8 +190,10 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                     value={field.value || ''}
                                     onChange={(e) => field.onChange(Number(e.target.value))}
                                     label="Height"
+                                    type="number"
                                     variant="outlined"/>}
                             />
+                            <p className='error'>{errors.height?.message}</p>
                         </div>
 
                         <div className='from_group'>
@@ -190,8 +206,10 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                     value={field.value || ''}
                                     onChange={(e) => field.onChange(Number(e.target.value))}
                                     label="Width"
+                                    type="number"
                                     variant="outlined"/>}
                             />
+                            <p className='error'>{errors.width?.message}</p>
                         </div>
 
                         <div className='from_group'>
@@ -204,8 +222,10 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                     value={field.value || ''}
                                     onChange={(e) => field.onChange(Number(e.target.value))}
                                     label="Length"
+                                    type="number"
                                     variant="outlined"/>}
                             />
+                            <p className='error'>{errors.length?.message}</p>
                         </div>
 
                         <p className='description'>Enter Furniture dimensions (height, width, length) in centimeters

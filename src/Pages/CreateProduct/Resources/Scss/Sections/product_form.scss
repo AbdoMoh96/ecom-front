@@ -8,11 +8,21 @@
 
   .from_group {
     margin: 3rem 0;
+
+    .error {
+      height: 1.1rem;
+      font-size: 1.1rem;
+      color: #f42626;
+    }
   }
 
   .product_type_wrapper {
     border: 1px solid black;
     border-radius: 5px;
     padding: 1rem;
+
+    .description {
+      font-size: 1.1rem;
+    }
   }
 }
