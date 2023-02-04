@@ -3,8 +3,20 @@
 #product-form {
 
   width: 20vw;
-
   margin: 4rem 0 0 0;
+
+  @include m.mediaDown(xxl) {
+    width: 40vw;
+  }
+
+  @include m.mediaDown(xl) {
+    width: 50vw;
+  }
+
+  @include m.mediaDown(lg) {
+    padding: 0 2rem 0 2rem;
+    width: 100vw;
+  }
 
   .from_group {
     margin: 3rem 0;
