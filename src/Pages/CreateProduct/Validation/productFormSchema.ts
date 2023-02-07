@@ -7,23 +7,33 @@ const ProductFormSchema = Yup.object().shape({
     type_id: Yup.number().required('Product Type Is Required'),
     size: Yup.number().when('type_id', {
         is: 1,
-        then: Yup.number().required('Size is required'),
+        then: Yup.number()
+            .typeError('field should be a number')
+            .required('Size is required'),
     }),
     weight: Yup.number().when('type_id', {
         is: 2,
-        then: Yup.number().required('Weight is required'),
+        then: Yup.number()
+            .typeError('field should be a number')
+            .required('Weight is required'),
     }),
     height: Yup.number().when('type_id', {
         is: 3,
-        then: Yup.number().required('Height is required'),
+        then: Yup.number()
+            .typeError('field should be a number')
+            .required('Height is required'),
     }),
     width: Yup.number().when('type_id', {
         is: 3,
-        then: Yup.number().required('Width is required'),
+        then: Yup.number()
+            .typeError('field should be a number')
+            .required('Width is required'),
     }),
     length: Yup.number().when('type_id', {
         is: 3,
-        then: Yup.number().required('Length is required'),
+        then: Yup.number()
+            .typeError('field should be a number')
+            .required('Length is required'),
     }),
 });
 

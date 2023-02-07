@@ -27,16 +27,22 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
     const [types, setTypes] = useState<Array<TypeInterface>>([]);
 
 
-    const {control, handleSubmit, formState: {errors}} = useForm<ProductFormInterface>({
+    const {control, handleSubmit, setError, formState: {errors}} = useForm<ProductFormInterface>({
         resolver: yupResolver(productFormSchema),
         reValidateMode: 'onChange',
         mode: 'all'
     });
 
     const onSubmit: SubmitHandler<ProductFormInterface> = async data => {
-        let response = await axios.post(`${import.meta.env.VITE_API_URL}/products/new`, data);
-        if (response.status === 200) {
-            navigate('/products/list');
+        try {
+            let response = await axios.post(`${import.meta.env.VITE_API_URL}/products/new`, data);
+            if (response.status === 200) {
+                navigate('/products/list');
+            }
+        } catch (error: any) {
+            if (error.response.status === 400) {
+                setError('sku', {type: 'custom', message: error.response.data.message});
+            }
         }
     };
 
@@ -108,6 +114,7 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                             value={field.value || ''}
                             onChange={(e) => field.onChange(Number(e.target.value))}
                             label="Price"
+                            type='number'
                             variant="outlined"/>}
                     />
                     <p className='error'>{errors.price?.message}</p>
@@ -148,6 +155,7 @@ const CreateProduct: React.FC<propTypes> = ({}) => {
                                     value={field.value || ''}
                                     onChange={(e) => field.onChange(Number(e.target.value))}
                                     label="Size"
+                                    type='number'
                                     variant="outlined"/>}
                             />
                             <p className='error'>{errors.size?.message}</p>
